@@ -31,6 +31,7 @@ from dwarf_python_api.lib.dwarf_utils import perform_takeAstroWidePhoto
 from dwarf_python_api.lib.dwarf_utils import perform_stopAstroWidePhoto
 from dwarf_python_api.lib.dwarf_utils import perform_waitEndAstroWidePhoto
 from dwarf_python_api.lib.dwarf_utils import perform_update_camera_setting
+from dwarf_python_api.lib.dwarf_utils import perform_update_all_camera_setting
 from dwarf_python_api.lib.dwarf_utils import perform_get_all_camera_setting
 from dwarf_python_api.lib.dwarf_utils import perform_get_all_feature_camera_setting
 from dwarf_python_api.lib.dwarf_utils import perform_get_all_camera_wide_setting
@@ -365,6 +366,8 @@ def option_C3():
 
         if matching_entry:
             # Extract specific fields for the matching entry
+           auto_mode = matching_entry["auto_mode"]
+           print(f"The exposition mode is: {'Manual' if auto_mode else 'Auto'}")
            index_value = matching_entry["index"]
 
            camera_exposure = str(get_exposure_name_by_index(index_value,config_to_dwarf_id_str(dwarf_id)))
@@ -479,6 +482,8 @@ def option_C3():
 
         if matching_entry:
             # Extract specific fields for the matching entry
+           auto_mode = matching_entry["auto_mode"]
+           print(f"The wide exposition mode is: {'Manual' if auto_mode else 'Auto'}")
            index_value = matching_entry["index"]
 
            camera_wide_exposure = str(get_wide_exposure_name_by_index(index_value,config_to_dwarf_id_str(dwarf_id)))
@@ -546,7 +551,71 @@ def option_C4():
         print("the wide gain is:", camera_wide_gain)
         perform_update_camera_setting("wide_gain", camera_wide_gain, config_to_dwarf_id_str(dwarf_id))
 
+def option_CT4():
+    print("You selected Option CT4. Import Saved Config All Tele Camera all Data into Dwarf")
+    print("")
+    # Add your Option CW4 functionality here
+    # get dwarf type id
+    data_config = dwarf_python_api.get_config_data.get_config_data()
+    dwarf_id = data_config['dwarf_id']
+    dwarf_id_int = config_to_dwarf_id_int(dwarf_id)
+    print(f"Connected to Dwarf {'Mini' if dwarf_id_int == 5 else dwarf_id_int}")
 
+    allValue = {
+        'camera_exposure': False,
+        'camera_gain': False,
+        'camera_ircut': 0,
+        'camera_wb_mode': 0,
+        'camera_wb_index_type': 2,
+        'camera_wb_index': 0,
+        'camera_brightness': 0,
+        'camera_contrast': 0,
+        'camera_saturation': 0,
+        'camera_sharpness': 50,
+        'camera_jpg_quality': 80
+    }
+    allValue['camera_exposure'] = read_camera_exposure()
+    if (allValue['camera_exposure']):
+        print("the wide exposition is: ", allValue['camera_exposure'])
+
+    allValue['camera_gain'] = read_camera_gain()
+    if (allValue['camera_gain']):
+        print("the wide gain is:", allValue['camera_gain'])
+
+    perform_update_all_camera_setting("tele", allValue, config_to_dwarf_id_str(dwarf_id))
+
+def option_CW4():
+    print("You selected Option CW4. Import Saved Config All Wide Camera all Data into Dwarf")
+    print("")
+    # Add your Option CW4 functionality here
+    # get dwarf type id
+    data_config = dwarf_python_api.get_config_data.get_config_data()
+    dwarf_id = data_config['dwarf_id']
+    dwarf_id_int = config_to_dwarf_id_int(dwarf_id)
+    print(f"Connected to Dwarf {'Mini' if dwarf_id_int == 5 else dwarf_id_int}")
+
+    allValue = {
+        'camera_exposure': False,
+        'camera_gain': False,
+        'camera_ircut': 0,
+        'camera_wb_mode': 0,
+        'camera_wb_index_type': 2,
+        'camera_wb_index': 0,
+        'camera_brightness': 0,
+        'camera_contrast': 0,
+        'camera_saturation': 0,
+        'camera_sharpness': 50,
+        'camera_jpg_quality': 80
+    }
+    allValue['camera_exposure'] = read_camera_wide_exposure()
+    if (allValue['camera_exposure']):
+        print("the wide exposition is: ", allValue['camera_exposure'])
+
+    allValue['camera_gain'] = read_camera_wide_gain()
+    if (allValue['camera_gain']):
+        print("the wide gain is:", allValue['camera_gain'])
+
+    perform_update_all_camera_setting("wide", allValue, config_to_dwarf_id_str(dwarf_id))
 def option_C5():
     print("You selected Option C5. Start Imaging Session")
     print("")
@@ -1415,6 +1484,12 @@ def choice_camera():
 
         elif user_choice == 'C4':
             option_C4()
+
+        elif user_choice == 'CT4':
+            option_CT4()
+
+        elif user_choice == 'CW4':
+            option_CW4()
 
         elif user_choice == 'C5':
             option_C5()
