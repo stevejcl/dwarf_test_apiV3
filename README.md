@@ -1,85 +1,45 @@
-# dwarf_test_apiV2
-Dwarf II and Dwarf 3, test program for Api V2.0 in python
+# dwarf_python_api
+Dwarf II, Dwarf 3, and Dwarf Mini - API functions to be used with python.
 
-This test program permits to send frames to the dwarfII telescope.
+This is the V3 branch, supporting the new V3 protobuf/WebSocket protocol used by current DWARFLAB firmware across all three models (Dwarf II, Dwarf 3, Dwarf Mini). The old V2-only API lives on the `main` branch for reference, but V3 is now the actively maintained version and the one new projects should use.
 
-It uses the new api V2.0.
-
-The frames that can be tested are : 
+The frames that can be used are :
 - connect to the dwarf with bluetooth
-- Sendind config parameter : Time and Timezone
+- Sending config parameter : Time and Timezone
 - Do a calibration
-- Do a goto to differents target (Polaris, Vega, M42 and M31)
-- Do a goto to a solar system target : Jupiter
+- Do a goto to different targets (Polaris, Vega, M42, M31, and solar system objects like Jupiter)
 - Do manual target
-- Change the parameters of you tele lens
-- Take Tele photo, Wide Photo
-- Download last image or previous one or history one (Tele and Wide)
-- Download list of Wide or Tele photos present on the Dwarf.
-- Start a imaging session
+- Change the parameters of your tele and wide lens (exposure, gain, IR filter, white balance...)
+- Take Tele or Wide photo
+- Run astro/DSO sessions (tele and wide): start/stop/wait, stacking status
+- Download last image or previous one
+- Start an imaging session
 - Download images from last session
 - Even do a Siril live integration with the current imaging session
-- And many others functions
+- RGB/power indicator light control
+- And many other functions
 
-Installation
+An interactive test CLI is included (`main_v3.py`) covering camera, astro, motor, Bluetooth, and light functions - useful for testing individual commands against real hardware without writing a script.
 
-1. Clone this repository 
+See `MIGRATION_V3.md` for detailed notes on the V2-to-V3 protocol migration, what's been hardware-confirmed vs. still unconfirmed, and cross-references against independent reverse-engineering (dwarfAlp).
 
-2. Then Install the dwarf_python_api library with :
+To use this library, you need :
+
+ 1.  python installed on your computer
+
+ 2.  Install the require libraries with downloading the requirements.txt file and do
   
-Install :
+     python -m pip install -r requirements.txt
 
-      python -m pip install -r requirements.txt
-      python -m pip install -r requirements-local.txt --target .
+ 3.  Install this package in the current root dir of your poject
 
-   This project uses the dwarf_python_api library that must be installed locally in the root path of this project
-   with using the parameter --target .
+     It's due to the bluetooth connection that's need a web page and so need to start a web server locally.
 
-   Don't miss the dot at the end of the line
+     So you have to install this package with :
 
-Then you can start it with => python .\main.py
+     python -m pip install dwarf_python_api@git+https://github.com/stevejcl/dwarf_python_api --target .
 
-Cloud detector funcion : WIP
-this script take a wide image each 30s and compare them to detect if clous are coming
+ 
+     !!! Don't miss the dot at the end of the line
 
-Install :
-
-      python -m pip install -r requirements-cloud.txt
-      python -m pip install -r requirements-local.txt --target .
-
-then launch the script with: python .\detect_cloud.py
-
-How to use: 
-a menu is diplaying
-----------------------------------
-    Detect Cloud application,
-    Connect first to the Dwarf
-----------------------------------
-C. Connect Dwarf
-S. Show Status data
-D. Force Disconnection
-----------------------------------
-    Detect Cloud application
-----------------------------------
-GO. Start Cloud detection
-CTRL+C. Stop Cloud detection
-----------------------------------
-           CONFIG Command
-----------------------------------
-BR. Read Bluetooth Param Config Information
-BS. Save Bluetooth Param Config Information and for Connection
-C1. Read Saved Config Camera Data
-C2. Input Camera Data to Config
-C3. Read Current Dwarf Camera Data
-C4. Import Saved Config Camera Data into Dwarf
-U. Unset HOST MASTER
-L. Go Live Action
-0. Exit
-
-Type : C to detect and connect your dwarf, then go
-
-Maybe a problem can occurs, the script uses ftp to download the image file, it shows the IP it uses.
-if the IP is not the same as the one diplayed after connection, you can update the config.ini file.
-
-Update the last line : ftp_host = 192.168.x.x by yours
-This will be corrected later
+     This installs from the `V3` branch (the default branch). To pin a specific branch explicitly regardless of what the default branch is set to (e.g. to stay on the old V2-only API), append `@branch-name` to the URL, e.g. `git+https://github.com/stevejcl/dwarf_python_api@main`.
