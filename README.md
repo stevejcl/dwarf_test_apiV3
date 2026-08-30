@@ -19,7 +19,7 @@ The frames that can be used are :
 - RGB/power indicator light control
 - And many other functions
 
-An interactive test CLI is included (`main_v3.py`) covering camera, astro, motor, Bluetooth, and light functions - useful for testing individual commands against real hardware without writing a script.
+An interactive test CLI is included (`main.py`) covering camera, astro, motor, Bluetooth, and light functions - useful for testing individual commands against real hardware without writing a script.
 
 See `MIGRATION_V3.md` for detailed notes on the V2-to-V3 protocol migration, what's been hardware-confirmed vs. still unconfirmed, and cross-references against independent reverse-engineering (dwarfAlp).
 
